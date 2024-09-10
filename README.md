@@ -1,8 +1,29 @@
-# Welcome to your CDK TypeScript project
+# example-webhook-handler-cdk
 
-This is a blank project for CDK development with TypeScript.
+An example webhook handler for Common Fate, deployed using the AWS CDK. It uses a preshared authorization header for authentication.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## How to use
+
+1. Replace the authorization header and the permission set identifier in `cmd/lambda/main.go`.
+
+2. Deploy the Lambda function: `npm run cdk deploy`.
+
+3. Add a webhook handler to your Common Fate configuration, replacing the `url` and `headers` values with ones matching the Lambda function you have deployed:
+
+  ```hcl
+  resource "commonfate_webhook_integration" "example_lambda" {
+    name = "Example Lambda"
+    url  = "https://abcdef.lambda-url.ap-southeast-2.on.aws" // REPLACE THIS
+    headers = [
+      {
+        key   = "Authorization",
+        value = "abcdef" // REPLACE THIS
+      },
+    ]
+    send_audit_log_events = true
+  }
+  ```
+
 
 ## Useful commands
 

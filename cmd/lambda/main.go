@@ -14,6 +14,11 @@ import (
 
 func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (*string, error) {
 	var logEvent audit.Log
+
+	if request.Headers["Authorization"] != "<replace this with a preshared authorization header>" {
+		return nil, fmt.Errorf("invalid authorization header")
+	}
+
 	err := json.Unmarshal([]byte(request.Body), &logEvent)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse audit log event: %v", err)
