@@ -11,6 +11,20 @@ export class ExampleWebhookHandlerStack extends cdk.Stack {
       entry: "cmd/lambda",
     });
 
+    lambda.addEnvironment("CF_API_URL", "<your Common Fate deployment URL>");
+    lambda.addEnvironment(
+      "CF_OIDC_CLIENT_ID",
+      "<your Common Fate deployment OIDC client ID>",
+    );
+    lambda.addEnvironment(
+      "CF_OIDC_CLIENT_SECRET",
+      "<your Common Fate deployment OIDC client secret>",
+    );
+    lambda.addEnvironment(
+      "CF_OIDC_ISSUER",
+      "<your Common Fate deployment OIDC issuer URL>",
+    );
+
     const functionUrl = lambda.addFunctionUrl({
       authType: cdk.aws_lambda.FunctionUrlAuthType.NONE,
     });
